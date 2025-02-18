@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
-require('./cron/birthdayCron'); // Start cron job
+// require('./cron/birthdayCron'); // Start cron job
+const { checkAndSendBirthdayMessages } = require('./cron/birthdayCron');
 
 const app = express();
 app.use(express.json());
