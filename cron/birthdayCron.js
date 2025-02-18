@@ -21,7 +21,7 @@ const birthdayMessages = [
 ];
 
 
-cron.schedule('20 14 * * *', async () => {
+cron.schedule('0 1 * * *', async () => {
     console.log("Checking birthdays at 1 AM...");
     const today = moment().format('MM-DD');
 
