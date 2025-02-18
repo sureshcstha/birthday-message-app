@@ -1,0 +1,21 @@
+[
+    {
+        "firstName": "Suresh",
+        "birthdate": "1990-02-19",
+        "email": "jollysures@gmail.com",
+        "phone": "+13852386059"
+    },
+    {
+        "firstName": "Addie",
+        "birthdate": "1996-02-15",
+        "email": "sabitricstha@gmail.com",
+        "phone": "+19876543213"
+    },
+    {
+        "firstName": "Sabina",
+        "lastName": "Shrestha",
+        "birthdate": "1999-02-15",
+        "email": "bynerdware@gmail.com",
+        "phone": "+12354678904"
+    }
+]
