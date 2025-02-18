@@ -11,6 +11,10 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+app.get("/", (req, res) => {
+    res.send("Hi, I am live.")
+});
+
 // Routes
 app.use('/users', userRoutes);
 
