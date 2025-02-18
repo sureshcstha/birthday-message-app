@@ -21,8 +21,8 @@ const birthdayMessages = [
 ];
 
 
-cron.schedule('0 1 * * *', async () => {
-    console.log("Checking birthdays at 1 AM...");
+exports.checkAndSendBirthdayMessages = async (req, res) => {
+    console.log("Checking birthdays...");
     const today = moment().format('MM-DD');
 
     try {
@@ -40,4 +40,4 @@ cron.schedule('0 1 * * *', async () => {
     } catch (error) {
         console.error("Error fetching users:", error);
     }
-});
+};
