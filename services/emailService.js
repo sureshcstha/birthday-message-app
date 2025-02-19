@@ -13,11 +13,12 @@ exports.sendEmail = async (email, message) => {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
-            subject: 'Happy Birthday!',
-            text: message
+            subject: 'Happy Birthday! 🎉',
+            text: message,
+            html: `<p style="font-size:16px;">${message.replace(/\n/g, '<br>')}</p>`
         });
         console.log(`Email sent to ${email}`);
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error(`Failed to send email to ${email}:`, error);
     }
 };

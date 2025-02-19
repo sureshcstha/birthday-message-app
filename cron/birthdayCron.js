@@ -26,18 +26,33 @@ exports.checkAndSendBirthdayMessages = async (req, res) => {
     const today = moment().format('MM-DD');
 
     try {
-        const users = await User.find();
-        users.forEach(user => {
-            if (moment(user.birthdate).format('MM-DD') === today) {
-                // Pick a random message
-                const randomMessage = birthdayMessages[Math.floor(Math.random() * birthdayMessages.length)];
-                // Send email
-                sendEmail(user.email, `Happy Birthday, ${user.firstName}! 🎉\n\n${randomMessage}\n\nBest wishes,\nSuresh Shrestha`);
-                // Send sms
-                // sendSMS(user.phone, `Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, Suresh Shrestha`);
+        // Get only users whose birthday is today
+        const users = await User.find({
+            $expr: {
+                $eq: [{ $dateToString: { format: "%m-%d", date: "$birthdate" } }, today]
             }
         });
+
+        if (users.length === 0) {
+            console.log("No birthdays today.");
+            return res.json({ message: "No birthdays today." });
+        }
+
+        // Send emails in parallel
+        const messagePromises = users.map(async (user) => {
+            const randomMessage = birthdayMessages[Math.floor(Math.random() * birthdayMessages.length)];
+            const emailPromise = sendEmail(user.email, `Happy Birthday, ${user.firstName}! 🎉\n\n${randomMessage}\n\nBest wishes,\nSuresh Shrestha`);
+            const smsPromise = sendSMS(user.phone, `Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, Suresh Shrestha`);
+
+            return Promise.all([emailPromise, smsPromise]); // Run both email and SMS in parallel
+        });
+
+        await Promise.all(messagePromises); // Wait for all messages to be sent
+        console.log(`Sent ${users.length} birthday messages!`);
+        res.json({ message: `Sent ${users.length} birthday messages.` });
+
     } catch (error) {
         console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Error sending birthday messages." });
     }
 };
