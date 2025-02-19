@@ -41,8 +41,9 @@ exports.checkAndSendBirthdayMessages = async (req, res) => {
         // Send emails in parallel
         const messagePromises = users.map(async (user) => {
             const randomMessage = birthdayMessages[Math.floor(Math.random() * birthdayMessages.length)];
-            const emailPromise = sendEmail(user.email, `Happy Birthday, ${user.firstName}! 🎉\n\n${randomMessage}\n\nBest wishes,\nSuresh Shrestha`);
-            const smsPromise = sendSMS(user.phone, `Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, Suresh Shrestha`);
+            const senderInfo = `From ${process.env.SENDER_NAME} (${process.env.SENDER_PHONE} / ${process.env.SENDER_EMAIL})`;
+            const emailPromise = sendEmail(user.email, `Happy Birthday, ${user.firstName}! 🎉\n\n${randomMessage}\n\nBest wishes,\n${process.env.SENDER_NAME}`);
+            const smsPromise = sendSMS(user.phone, `${senderInfo}\n Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, ${process.env.SENDER_NAME}`);
 
             return Promise.all([emailPromise, smsPromise]); // Run both email and SMS in parallel
         });
