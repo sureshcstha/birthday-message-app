@@ -65,11 +65,11 @@ exports.unsubscribeUser = async (req, res) => {
         const user = await User.findByIdAndUpdate(id, { subscribed: false }, { new: true });
 
         if (!user) {
-            return res.redirect(`https://mydomain.com/unsubscribe?status=not_found`);
+            return res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=not_found`);
         }
 
-        res.redirect(`https://mydomain.com/unsubscribe?status=success`);
+        res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=success`);
     } catch (error) {
-        res.redirect(`https://mydomain.com/unsubscribe?status=error`);
+        res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=error`);
     }
 };
