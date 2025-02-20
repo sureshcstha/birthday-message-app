@@ -45,3 +45,31 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.subscribeUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByIdAndUpdate(id, { subscribed: true }, { new: true });
+
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        res.json({ message: 'User subscribed successfully', user });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.unsubscribeUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByIdAndUpdate(id, { subscribed: false }, { new: true });
+
+        if (!user) {
+            return res.redirect(`https://mydomain.com/unsubscribe?status=not_found`);
+        }
+
+        res.redirect(`https://mydomain.com/unsubscribe?status=success`);
+    } catch (error) {
+        res.redirect(`https://mydomain.com/unsubscribe?status=error`);
+    }
+};
