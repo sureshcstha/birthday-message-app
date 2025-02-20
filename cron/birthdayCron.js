@@ -28,14 +28,15 @@ exports.checkAndSendBirthdayMessages = async (req, res) => {
     try {
         // Get only users whose birthday is today
         const users = await User.find({
+            subscribed: true,
             $expr: {
                 $eq: [{ $dateToString: { format: "%m-%d", date: "$birthdate" } }, today]
             }
         });
 
         if (users.length === 0) {
-            console.log("No birthdays today.");
-            return res.json({ message: "No birthdays today." });
+            console.log("No subscribed users with birthdays today.");
+            return res.json({ message: "No subscribed users with birthdays today." });
         }
 
         // Send emails in parallel
@@ -43,8 +44,8 @@ exports.checkAndSendBirthdayMessages = async (req, res) => {
             const randomMessage = birthdayMessages[Math.floor(Math.random() * birthdayMessages.length)];
             const senderInfo = `From ${process.env.SENDER_NAME} (${process.env.SENDER_PHONE} / ${process.env.SENDER_EMAIL})`;
             const emailBody = `Happy Birthday, ${user.firstName}! 🎉\n\n${randomMessage}\n\nBest wishes,\n${process.env.SENDER_NAME}`;
-            const emailPromise = sendEmail(user.email, emailBody, user._id);
-            const smsPromise = sendSMS(user.phone, `${senderInfo}\n Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, ${process.env.SENDER_NAME}`);
+            const emailPromise = user.email ? sendEmail(user.email, emailBody, user._id) : Promise.resolve();
+            const smsPromise = user.phone ? sendSMS(user.phone, `${senderInfo}\n Happy Birthday, ${user.firstName}! 🎉 - ${randomMessage} - Best wishes, ${process.env.SENDER_NAME}`) : Promise.resolve();
 
             return Promise.all([emailPromise, smsPromise]); // Run both email and SMS in parallel
         });
