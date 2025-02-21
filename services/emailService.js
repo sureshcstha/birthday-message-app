@@ -40,10 +40,12 @@ exports.sendWelcomeEmail = async (email, firstName) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Welcome to the Birthday Mailing List 🎉",
-      html: `<p>Hi ${firstName},</p>
-             <p>Welcome to my Birthday Mailing List! 🎂 You'll receive a special birthday email from me on your special day.</p>
-             <p>Cheers,</p>
-             <p>${process.env.SENDER_NAME}</p>
+      html: `<div style="font-size:16px;">
+                <p>Hi ${firstName},</p>
+                <p>Welcome to my Birthday Mailing List! 🎂 You'll receive a special birthday email from me on your special day.</p>
+                <p>Cheers,</p>
+                <p>${process.env.SENDER_NAME}</p>
+             </div>
              <hr>
              <p style="font-size:12px; color:gray;">
                 If you received this email by mistake, you can safely ignore or delete it.
