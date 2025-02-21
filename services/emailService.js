@@ -43,8 +43,10 @@ exports.sendWelcomeEmail = async (email, firstName) => {
       html: `<div style="font-size:16px;">
                 <p>Hi ${firstName},</p>
                 <p>Welcome to my Birthday Mailing List! 🎂 You'll receive a special birthday email from me on your special day.</p>
-                <p>Cheers,</p>
-                <p>${process.env.SENDER_NAME}</p>
+                <br>
+                <p>Cheers,
+                <br>
+                ${process.env.SENDER_NAME}</p>
              </div>
              <hr>
              <p style="font-size:12px; color:gray;">
