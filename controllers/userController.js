@@ -5,10 +5,18 @@ exports.addUser = async (req, res) => {
     try {
         const { firstName, lastName, birthdate, email, phone } = req.body;
 
-        // Check if email already exists
-        const existingUser = await User.findOne({ email });
+        // Check if email or phone number already exists
+        const existingUser = await User.findOne({ 
+            $or: [{ email }, { phone }] 
+        });
+
         if (existingUser) {
-            return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
+            if (existingUser.email === email) {
+                return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
+            }
+            if (existingUser.phone === phone) {
+                return res.status(400).json({ error: 'Phone number is already in use. Please use a different phone number.' });
+            }
         }
 
         const user = new User({ firstName, lastName, birthdate, email, phone });
@@ -20,7 +28,7 @@ exports.addUser = async (req, res) => {
         res.status(201).json({ message: 'User added successfully!' });
     } catch (error) {
         if (error.code === 11000) {
-            return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
+            return res.status(400).json({ error: 'Duplicate entry detected. Please check your email and phone number.' });
         }
         res.status(500).json({ error: error.message });
     }
