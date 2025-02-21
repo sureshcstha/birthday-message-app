@@ -68,7 +68,7 @@ exports.unsubscribeUser = async (req, res) => {
             return res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=not_found`);
         }
 
-        res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=success`);
+        res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=success&id=${id}`);
     } catch (error) {
         res.redirect(`${process.env.REDIRECT_URL}/unsubscribe?status=error`);
     }
