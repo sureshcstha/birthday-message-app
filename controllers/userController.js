@@ -1,10 +1,15 @@
 const User = require('../models/User');
+const { sendWelcomeEmail } = require('../services/emailService');
 
 exports.addUser = async (req, res) => {
     try {
         const { firstName, lastName, birthdate, email, phone } = req.body;
         const user = new User({ firstName, lastName, birthdate, email, phone });
         await user.save();
+
+        // Send welcome email asynchronously
+        sendWelcomeEmail(email, firstName);
+
         res.status(201).json({ message: 'User added successfully!' });
     } catch (error) {
         res.status(500).json({ error: error.message });

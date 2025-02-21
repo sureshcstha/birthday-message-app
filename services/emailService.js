@@ -32,3 +32,28 @@ exports.sendEmail = async (email, message, userId) => {
         console.error(`Failed to send email to ${email}:`, error);
     }
 };
+
+
+// Function to send Welcome Email
+exports.sendWelcomeEmail = async (email, firstName) => {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Welcome to the Birthday Mailing List 🎉",
+      html: `<p>Hi ${firstName},</p>
+             <p>Welcome to my Birthday Mailing List! 🎂 You'll receive a special birthday email from me on your special day.</p>
+             <p>Cheers,</p>
+             <p>${process.env.SENDER_NAME}</p>
+             <hr>
+             <p style="font-size:12px; color:gray;">
+                If you received this email by mistake, you can safely ignore or delete it.
+             </p>`,
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`✅ Welcome email sent to ${email}`);
+    } catch (error) {
+      console.error(`❌ Error sending welcome email: ${error.message}`);
+    }
+};
