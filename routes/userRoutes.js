@@ -9,5 +9,6 @@ router.delete('/delete/:id', deleteUser);
 router.get('/all', getAllUsers);
 router.put('/subscribe/:id', subscribeUser);
 router.put('/unsubscribe/:id', unsubscribeUser); 
+router.get('/unsubscribe/:id', unsubscribeUser); 
 
 module.exports = router;
