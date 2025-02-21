@@ -4,6 +4,13 @@ const { sendWelcomeEmail } = require('../services/emailService');
 exports.addUser = async (req, res) => {
     try {
         const { firstName, lastName, birthdate, email, phone } = req.body;
+
+        // Check if email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
+        }
+
         const user = new User({ firstName, lastName, birthdate, email, phone });
         await user.save();
 
@@ -12,6 +19,9 @@ exports.addUser = async (req, res) => {
 
         res.status(201).json({ message: 'User added successfully!' });
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
+        }
         res.status(500).json({ error: error.message });
     }
 };
