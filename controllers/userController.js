@@ -9,7 +9,7 @@ exports.addUser = async (req, res) => {
         const existingUser = await User.findOne({ 
             $or: [
                 { email }, 
-                { phone: { $ne: null, $ne: "", $eq: phone } } // Ignore null and empty phone values
+                { phone: phone && phone.trim() !== "" ? phone : null } // Ignore empty phone values
             ] 
         });
 
@@ -17,12 +17,12 @@ exports.addUser = async (req, res) => {
             if (existingUser.email === email) {
                 return res.status(400).json({ error: 'Email is already in use. Please use a different email.' });
             }
-            if (existingUser.phone === phone) {
+            if (existingUser.phone === phone && phone.trim() !== "") {
                 return res.status(400).json({ error: 'Phone number is already in use. Please use a different phone number.' });
             }
         }
 
-        const user = new User({ firstName, lastName, birthdate, email, phone });
+        const user = new User({ firstName, lastName, birthdate, email, phone: phone.trim() !== "" ? phone : null });
         await user.save();
 
         // Send welcome email asynchronously
