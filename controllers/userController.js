@@ -9,7 +9,7 @@ exports.addUser = async (req, res) => {
         const existingUser = await User.findOne({ 
             $or: [
                 { email }, 
-                { phone: { $ne: null, $eq: phone } } // Only check phone if it's not null
+                { phone: { $ne: null, $ne: "", $eq: phone } } // Ignore null and empty phone values
             ] 
         });
 
