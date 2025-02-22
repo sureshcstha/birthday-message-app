@@ -7,7 +7,10 @@ exports.addUser = async (req, res) => {
 
         // Check if email or phone number already exists
         const existingUser = await User.findOne({ 
-            $or: [{ email }, { phone }] 
+            $or: [
+                { email }, 
+                { phone: { $ne: null, $eq: phone } } // Only check phone if it's not null
+            ] 
         });
 
         if (existingUser) {
