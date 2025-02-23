@@ -13,7 +13,7 @@ exports.sendEmail = async (email, message, userId) => {
         const unsubscribeLink = `${process.env.APP_URL}/users/unsubscribe/${userId}`;
 
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: `"Suresh from BirthdayMails" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Happy Birthday! 🎉',
             text: message,
@@ -37,7 +37,7 @@ exports.sendEmail = async (email, message, userId) => {
 // Function to send Welcome Email
 exports.sendWelcomeEmail = async (email, firstName) => {
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"Suresh from BirthdayMails" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Welcome to the Birthday Mailing List 🎉",
       html: `<div style="font-size:16px;">
