@@ -8,7 +8,20 @@ const { checkAndSendBirthdayMessages } = require('./cron/birthdayCron');
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = ["https://birthdaymails.netlify.app"];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
 // Connect to MongoDB
