@@ -9,7 +9,7 @@ const { checkAndSendBirthdayMessages } = require('./cron/birthdayCron');
 
 const app = express();
 
-const allowedOrigins = ["https://birthdaymails.netlify.app"];
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 
 app.use(cors({
     origin: function (origin, callback) {
