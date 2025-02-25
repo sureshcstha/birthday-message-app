@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require("cors");
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
+const apiAuthRoutes = require('./routes/apiAuthRoutes'); 
 // require('./cron/birthdayCron'); // Start cron job
 const { checkAndSendBirthdayMessages } = require('./cron/birthdayCron');
 
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/users', userRoutes);
+app.use("/api/auth", apiAuthRoutes);
 
 // New route to manually trigger birthday messages
 app.get('/run-birthday-check', checkAndSendBirthdayMessages);
