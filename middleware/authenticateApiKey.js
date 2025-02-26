@@ -1,7 +1,8 @@
 const ApiUser = require("../models/ApiUser");
 
 const authenticateApiKey = async (req, res, next) => {
-    try {const authHeader = req.header("Authorization");
+    try {
+        const authHeader = req.header("Authorization");
     
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({ error: "API key is required" });

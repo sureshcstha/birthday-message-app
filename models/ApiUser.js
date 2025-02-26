@@ -15,6 +15,11 @@ const apiUserSchema = new mongoose.Schema({
       }
     },
     apiKey: { type: String, required: true, unique: true },
+    role: { 
+      type: String, 
+      enum: ["admin", "superadmin"],  
+      default: "admin"
+    },
     createdAt: { type: Date, default: Date.now }
 });
 

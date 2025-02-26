@@ -3,16 +3,17 @@ const { addUser, updateUser, deleteUser, getAllUsers, subscribeUser, unsubscribe
 
 const router = express.Router();
 const authenticateApiKey = require("../middleware/authenticateApiKey");
+const authorize = require("../middleware/authorize");
 
 // Apply authentication middleware to all routes
-// router.use(authenticateApiKey);
+router.post("/add", authenticateApiKey, authorize(["admin", "superadmin"]), addUser);
+router.put("/update/:id", authenticateApiKey, authorize(["superadmin"]), updateUser);
+router.delete("/delete/:id", authenticateApiKey, authorize(["superadmin"]), deleteUser);
+router.get("/all", authenticateApiKey, authorize(["superadmin"]), getAllUsers);
+router.put("/subscribe/:id", authenticateApiKey, authorize(["admin", "superadmin"]), subscribeUser);
+router.put("/unsubscribe/:id", authenticateApiKey, authorize(["admin", "superadmin"]), unsubscribeUser);
 
-router.post('/add', authenticateApiKey, addUser);
-router.put('/update/:id', authenticateApiKey, updateUser);
-router.delete('/delete/:id', authenticateApiKey, deleteUser);
-router.get('/all', authenticateApiKey, getAllUsers);
-router.put('/subscribe/:id', authenticateApiKey, subscribeUser);
-router.put('/unsubscribe/:id', authenticateApiKey, unsubscribeUser); 
-router.get('/unsubscribe/:id', unsubscribeUser); 
+// Public route
+router.get("/unsubscribe/:id", unsubscribeUser); 
 
 module.exports = router;
