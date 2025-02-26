@@ -66,6 +66,46 @@ exports.login = async (req, res) => {
     }
 };
 
+
+// Change Password
+exports.changePassword = async (req, res) => {
+    const { email, currentPassword, newPassword } = req.body;
+
+    if (!email || !currentPassword || !newPassword) {
+        return res.status(400).json({ error: "Email, current password, and new password are required" });
+    }
+
+    try {
+        const user = await ApiUser.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Check if current password is correct
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+            return res.status(401).json({ error: "Invalid current password" });
+        }
+
+        // Check if new password is the same as the old password
+        const isReusedPassword  = await user.isSamePassword(newPassword);
+        if (isReusedPassword ) {
+            return res.status(400).json({ error: "New password cannot be the same as the old password." });
+        }
+
+        // Update password
+        user.password = newPassword;
+        await user.save();
+
+        res.json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error("Change password error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 // Allow users to regenerate their API key if needed.
 exports.regenerateApiKey = async (req, res) => {
   const { email, password } = req.body;

@@ -41,5 +41,10 @@ apiUserSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Method to check if new password is the same as the old password
+apiUserSchema.methods.isSamePassword = async function (newPassword) {
+  return await bcrypt.compare(newPassword, this.password);
+};
+
 const ApiUser = mongoose.model("ApiUser", apiUserSchema);
 module.exports = ApiUser;
