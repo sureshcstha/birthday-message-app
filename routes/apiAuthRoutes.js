@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post("/login", login);
-router.post("/regenerate-key", regenerateApiKey);
+router.put("/regenerate-key", regenerateApiKey);
 router.post("/get-key", getApiKey);
-router.post("/delete", deleteApiUser);
-router.post("/change-password", changePassword);
+router.delete("/delete", deleteApiUser);
+router.put("/change-password", changePassword);
 
 module.exports = router;
