@@ -1,9 +1,18 @@
 const User = require('../models/User');
 const { sendWelcomeEmail } = require('../services/emailService');
+const sanitizeHtml = require('sanitize-html');
+
+// Function to sanitize inputs
+const sanitizeInput = (input) => sanitizeHtml(input, { allowedTags: [], allowedAttributes: {} });
 
 exports.addUser = async (req, res) => {
     try {
-        const { firstName, lastName, birthdate, email, phone, recaptchaToken } = req.body;
+        let { firstName, lastName, birthdate, email, phone, recaptchaToken } = req.body;
+
+        firstName = sanitizeInput(firstName);
+        lastName = sanitizeInput(lastName);
+        email = sanitizeInput(email);
+        phone = sanitizeInput(phone);
 
         if (!firstName || !birthdate || !email || !phone || !recaptchaToken) {
             return res.status(400).json({ error: "First name, birthdate, email, phone, and reCAPTCHA are required." });
