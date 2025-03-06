@@ -20,6 +20,7 @@
     "mongoose": "^8.10.1",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.10.0",
+    "sanitize-html": "^2.14.0",
     "twilio": "^5.4.4"
   }
 }
