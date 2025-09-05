@@ -93,6 +93,14 @@ ALLOWED_ORIGINS=<http://localhost:5173,http://yourfrontend.com>
 npm start
 ```
 
+## Base URL
+
+All endpoints are relative to:
+
+```
+https://bday-787u.onrender.com
+```
+
 ## API Overview
 
 - **User Routes & Their Functions:** 
