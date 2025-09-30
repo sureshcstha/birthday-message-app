@@ -11,3 +11,5 @@ APP_URL=
 REDIRECT_URL=
 RECAPTCHA_SECRET_KEY=
 ALLOWED_ORIGINS=
+SENDGRID_API_KEY=your_sendgrid_api_key
+SENDER_EMAIL=your_verified_sendgrid_email

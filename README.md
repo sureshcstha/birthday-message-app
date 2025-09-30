@@ -138,7 +138,7 @@ All protected routes require a valid API key in the `Authorization: Bearer <apiK
 
 - **Automation**: Cron jobs via GitHub Actions
 
-- **Messaging**: Emails via Nodemailer, and SMS via Twilio
+- **Messaging**: Emails via SendGrid Web API, and SMS via Twilio
 
 ## Author
-Developed by Suresh Shrestha — feel free to reach out at sureshshr91@gmail.com
+Developed by [Suresh Shrestha](https://www.linkedin.com/in/sureshcstha/) — feel free to reach out at sureshshr91@gmail.com
